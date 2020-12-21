@@ -533,7 +533,7 @@ const project = { id: v4(), title, owner }; // usando a função na variável
 
 - deve gerar uma resposta do tipo
 
-![Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_18-20-29.png](Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_18-20-29.png)
+![](images/Captura_de_tela_de_2020-12-21_18-20-29.png)
 
 Repare no id único gerado. Caso aperte Send novamente, será criado um novo projeto, apenas com o id único diferente
 
