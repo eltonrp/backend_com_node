@@ -43,6 +43,76 @@
 
 ---
 
+# Conceitos API Rest
+
+## Funcionamento
+
+- do tipo requisição e resposta
+- requisição feita por um cliente
+- resposta retorna através de uma estrutura de dados
+- cliente recebe resposta e processa resultado
+
+## As rotas utilizam métodos HTTP
+
+- GET
+- POST
+- PUT
+- DELETE
+
+## Benefíficos
+
+- múltiplos clientes front-end e até mesmo back-end
+- protocolo de comunicação padronizado
+    - mesma estrutura para web / mobile / API pública
+    - comunicação com serviços externos
+
+## JSON
+
+- JavaScript Object Notation
+- objetos que podem contem arrays e outros objetos
+
+## Alguns tipos de Requisições
+
+- GET:
+    - utiliza Query Params
+    - vai na própria **URL**
+    - inicia-se após o nome do recurso, com o sinal de interrogação **?**
+
+    ```jsx
+    http://api.com/company/1/users?page=2
+    ```
+
+- POST:
+    - utiliza-se **Body** para não poluir a URL e não mostrar campos sensíveis
+
+    ```jsx
+    {
+    	"user": {
+    		"name": "Arlucio Nunes",
+    		"email": "arlucionunes@gmail.com",
+    		"techs": ["ReactJS", "NodeJS", "Reactive Native"]
+    	}
+    }
+    ```
+
+    ## HTTP Codes
+
+    - 1xx: Informational
+    - 2xx: Success
+        - 200: SUCCESS
+        - 201: CREATED
+    - 3xx: Redirection
+        - 301: MOVED PERMANENTLY
+        - 302: MOVED
+    - 4xx: Client Error
+        - 400: BAD REQUEST
+        - 401: UNAUTHORIZED
+        - 404: NOT FOUND
+    - 5xx: Server Error
+        - 500: INTERNAL SERVER ERROR
+
+---
+
 # Criando Projeto Node
 
 - criar uma pasta
