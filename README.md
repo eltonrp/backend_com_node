@@ -95,21 +95,21 @@
     }
     ```
 
-    ## HTTP Codes
+## HTTP Codes
 
-    - 1xx: Informational
-    - 2xx: Success
-        - 200: SUCCESS
-        - 201: CREATED
-    - 3xx: Redirection
-        - 301: MOVED PERMANENTLY
-        - 302: MOVED
-    - 4xx: Client Error
-        - 400: BAD REQUEST
-        - 401: UNAUTHORIZED
-        - 404: NOT FOUND
-    - 5xx: Server Error
-        - 500: INTERNAL SERVER ERROR
+- 1xx: Informational
+- 2xx: Success
+    - 200: SUCCESS
+    - 201: CREATED
+- 3xx: Redirection
+    - 301: MOVED PERMANENTLY
+    - 302: MOVED
+- 4xx: Client Error
+    - 400: BAD REQUEST
+    - 401: UNAUTHORIZED
+    - 404: NOT FOUND
+- 5xx: Server Error
+    - 500: INTERNAL SERVER ERROR
 
 ---
 
