@@ -427,3 +427,296 @@ Elton Possidonio
 ```
 
 ---
+
+# Aplicação Funcional
+
+- criar API, armazenando projetos
+    - listar
+    - criar
+    - deletar
+- por enquanto sem uso de **Banco de Dados**
+- criar uma variável **projects,** antes das rotas, que vai ser um array vazio
+
+```jsx
+const projects = [];
+```
+
+- fechando / reiniciando a aplicação, a variável retorna para o valor dela, que é um array vazio
+
+## Rota de listagem de projetos GET
+
+- rota após deixar os filtros comentados e retornar o array
+
+```jsx
+app.get('/projects', (request, response) => {
+  // const {title, owner} = request.query;
+
+  // console.log(title);
+  // console.log(owner);
+
+  return response.json(projects);
+});
+```
+
+## Rota de criação dos projetos POST
+
+- apago os console logs da rota post onde foram marcados como comentário
+
+```jsx
+app.post('/projects', (request, response) => {
+  const {title, owner} = request.body;
+
+/*
+  console.log(title); 
+  console.log(owner);
+*/
+
+  return response.json([
+    'Projeto 1',
+    'Projeto 2',
+    'Projeto 3',
+  ])
+})
+```
+
+- criar uma variável que contenha um **title**, um **owner** e um **id**
+- para a criação do **id**, instalar uma biblioteca chamada **uuidv4**
+
+```jsx
+yarn add uuidv4
+```
+
+- importar apenas a função **uuid** do módulo **uuidv4**
+
+```jsx
+const { uuid } = require('uuidv4');
+```
+
+- criando a variável **project**, conforme descrito acima
+
+```jsx
+const project = { id: uuid(), title, owner };
+```
+
+- criar um **push**, que irá enviar o que foi criado para o array
+
+```jsx
+projects.push(project);
+```
+
+- retornar o projeto que foi criado
+
+```jsx
+return response.json(project);
+```
+
+- ao rodar no **Insomnia**
+
+```jsx
+DeprecationWarning: uuidv4() is deprecated. Use v4() from the uuid module instead.
+```
+
+- como a biblioteca **uuidv4** está defasada, foi instalada a biblioteca **uuid** e usada a função **v4**, conforme orientação da notificação, ficando os comandos e códigos da seguinte forma:
+
+```jsx
+yarn add uuid // para instalar o módulo
+const { v4 } = require('uuid'); // para importar universal unique id
+const project = { id: v4(), title, owner }; // usando a função na variável
+```
+
+### No Insomnia
+
+- a rota GET deve estar vazia, caso tenha reiniciado a aplicação
+- na rota POST, dando um Send com o que já estava criado anteriormente
+
+![Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_18-18-53.png](Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_18-18-53.png)
+
+- deve gerar uma resposta do tipo
+
+![Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_18-20-29.png](Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_18-20-29.png)
+
+Repare no id único gerado. Caso aperte Send novamente, será criado um novo projeto, apenas com o id único diferente
+
+## Rota de update PUT
+
+- nessa rota, repare que recebo um **id** como parâmetro
+
+```jsx
+app.put('/projects/:id', (request, response) => {
+  const {id} = request.params; // aqui recebo id como parâmetro
+
+  console.log(id);
+
+  return response.json([
+    'Projeto 4',
+    'Projeto 2',
+    'Projeto 3',
+  ])
+})
+```
+
+- percorremos então o array **projects**, em busca do projeto que queremos atualizar, utilizando a função find() do JS
+
+```jsx
+const project = projects.find(project => project.id === id);
+```
+
+- porém, para facilitar a atualização, procuramos a posição do projeto no array, ou seja, o índice:
+
+```jsx
+const projectIndex = projects.findIndex(project => project.id === id);
+```
+
+- colocamos uma condição também caso não encontremos o projeto
+
+```jsx
+if (projectIndex < 0) { // caso não encontre, retorna uma resposta -1
+    return response.json({ error: 'Project not found.' })
+  }
+```
+
+- testando a rota PUT no **Insomnia**:
+
+![Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_18-49-35.png](Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_18-49-35.png)
+
+repare que retornou um status code de sucesso 200
+
+- para setar esse status code mudamos o código para:
+
+```jsx
+return response.status(400).json({ error: 'Project not found.' })
+```
+
+- retornando a resposta:
+
+![Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_18-53-02.png](Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_18-53-02.png)
+
+### Atualizando o projeto
+
+- com o projeto encontrado, criamos uma nova informação do projeto
+- pegamos a informação de dentro do body
+
+```jsx
+const { title, owner } = request.body;
+```
+
+- recriamos o projeto
+
+```jsx
+const project = {
+    id,
+    title,
+    owner,
+  }
+```
+
+- substituímos no array na mesma posição
+
+```jsx
+projects[projectIndex] = projects;
+```
+
+- retornamos o projeto atualizado
+
+```jsx
+return response.json(project);
+```
+
+- código final
+
+```jsx
+app.put('/projects/:id', (request, response) => {
+  const { id } = request.params;
+  const { title, owner } = request.body;
+
+  const projectIndex = projects.findIndex(project => project.id === id);
+
+  if (projectIndex < 0) { // caso não encontre, retorna uma resposta -1
+    return response.status(400).json({ error: 'Project not found.' })
+  }
+
+  const project = {
+    id,
+    title,
+    owner,
+  }
+
+  projects[projectIndex] = projects;
+
+  return response.json(project);
+})
+```
+
+### Testando no **Insomnia**
+
+- em Post, criamos um novo projeto e copiamos seu id
+- em Put, colocamos o id do projeto após projects
+- copiamos o conteúdo da rota de criação em Post
+- colamos em Put, selecionamos o formato json, alteramos alguma coisa e damos um send
+
+![Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_19-40-12.png](Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_19-40-12.png)
+
+- podemos encontrar o projeto na rota de List
+
+![Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_19-42-04.png](Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_19-42-04.png)
+
+## Rota de Delete
+
+- identificamos o id do projeto com base no parâmetro passado na URL
+- localizamos dentro do array
+- caso ele exista, utilizamos a função splice(), que retira uma informação de dentro de um array, passando como parâmetro o índice e quantas posições quero remover a partir desse índice, no caso apenas a informação contida nele, então no caso **1**
+
+```jsx
+projects.splice(projectIndex, 1);
+```
+
+- nesse caso retornamos apenas um valor em branco, usando o send()
+- recomenda-se enviar com o status code 204, quando for uma resposta vazia
+
+```jsx
+return response.status(204).send();
+```
+
+### Testando no Insomnia
+
+- basta copiar o id, colocar na URL após projects e apertar send
+
+![Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_20-00-21.png](Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_20-00-21.png)
+
+- voltado na listagem, não encontra-se mais o projeto
+
+## Filtrando Rota List
+
+- utilizando apenas filtro **title**, com valor **React**, por exemplo
+- será encontrado todos os projetos que o título contenha React
+- criamos uma constante chama **results**, observando se o título foi preenchido pelo usuário
+- caso tenha sido preenchido
+    - usamos função filter() e includes()
+- caso não tenha sido preenchido, retorna todos os projetos
+- código final:
+
+```jsx
+app.get('/projects', (request, response) => {
+  const { title } = request.query;
+
+  const results = title
+    ? projects.filter(project => project.title.includes(title))
+    : projects;
+
+  return response.json(results);
+});
+```
+
+### Testando no Insomnia
+
+- criando 2 projetos e desabilitando o filtro e buscando em List
+
+![Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_20-23-40.png](Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_20-23-40.png)
+
+- habilitando o filtro em Query
+
+![Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_20-24-43.png](Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_20-24-43.png)
+
+- resultado:
+
+![Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_20-25-43.png](Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_20-25-43.png)
