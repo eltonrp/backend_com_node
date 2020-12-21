@@ -529,7 +529,7 @@ const project = { id: v4(), title, owner }; // usando a função na variável
 - a rota GET deve estar vazia, caso tenha reiniciado a aplicação
 - na rota POST, dando um Send com o que já estava criado anteriormente
 
-![Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_18-18-53.png](Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_18-18-53.png)
+![](images/Captura_de_tela_de_2020-12-21_18-18-53.png)
 
 - deve gerar uma resposta do tipo
 
