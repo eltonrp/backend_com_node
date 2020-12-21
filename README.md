@@ -1,0 +1,359 @@
+# Node.js
+
+## Conceitos gerais
+
+- Plataforma (não é uma linguagem)
+- Permite usar Javascript no Back ends
+    - Não lida com eventos do usuário final
+    - Rotas e integrações
+
+## O que é npm/yarn?
+
+- gerenciador de pacotes
+- instala bibliotecas de terceiros
+- equiparável ao pip do Python
+
+## Características
+
+- Arquitetura Event-loop
+    - Call Stack (pilha de eventos)
+    - Last IN, First OUT (LIFO)
+- Node single-thread (processo fica alocado em apenas um core do precessamento)
+    - C++ por trás com libuv
+    - Background threads
+- Non-blocking I/O
+    - Não necessita dar toda a resposta de uma requisição de uma vez
+    - Dar uma resposta não gera perda de conexão como em outras linguagens
+    - Possibilita aplicações em tempo real
+
+## Frameworks
+
+- ExpressJS como base
+    - sem opinião
+        - não possui uma estrutura fechada
+    - ótimo para iniciar
+        - microframework
+    - micro-serviços
+        - possibilita dividir a aplicação
+
+### Frameworks opinados
+
+- AdonisJS
+- NestJS
+
+---
+
+# Criando Projeto Node
+
+- criar uma pasta
+
+```jsx
+mkdir nome_da_pasta
+```
+
+- iniciar um projeto javascript
+
+```jsx
+yarn init -y
+```
+
+- abrir pasta com o VScode
+
+```jsx
+code .
+```
+
+- criar uma pasta **src** no vscode
+- criar um arquivo index.js
+- importar uma dependência, **express**: é um microframework
+
+```jsx
+yarn add express
+```
+
+- criar uma aplicação
+
+```jsx
+const express = require('express');
+
+const app = express();
+```
+
+## Acessar a aplicação pelo navegador
+
+- necessário ouvir uma porta
+- acessar via localhost: **porta** (qualquer porta acima de 80)
+    - bastante utilizado 3333 e acima, caso tenha mais aplicações node
+
+```jsx
+app.listen(3333)
+```
+
+- fazer o express monitorar a rota e retornar uma resposta
+
+```jsx
+app.get('/projects', (request, response) => {
+  return response.send('Hello World');
+});
+```
+
+- executando a aplicação
+
+```jsx
+node src/index.js
+```
+
+- ir no navegador e buscar endereço **localhost:3333/projects**
+- não é necessário ir para um endereço como no exemplo **projects**. Pode ser usado apenas "/", então será acessado direto o **localhost:3333**
+- retornando dados do tipo JSON
+
+```jsx
+app.get('/', (resquest, response) => {
+  return response.json({message: 'Hello World'});
+});
+```
+
+- o node não faz a reinicialização automática do servidor quando há uma alteração, portanto é necessário **CTRL + C**, para cancelar a execução e executá-lo de novo.
+
+---
+
+# Configurando Node
+
+## Instalação Nodemon
+
+- ferramenta usada por toda comunidade node
+- atualização automática do servidor, toda vez que o node detecta uma alteração
+
+```jsx
+yarn add nodemon -D
+```
+
+- executando...
+
+```jsx
+yarn nodemon src/index.js
+```
+
+- criando atalho para execução
+    - no arquivo **package.json**
+
+```jsx
+"main": "src/index.js",
+"scripts": {
+    "dev": "nodemon"
+  },
+```
+
+## Retornando um feedback no terminal sobre a aplicação
+
+- alterar o método **app.listen**, que pode receber uma função como segundo parâmetro
+
+```jsx
+app.listen(3333, () => {
+	console.log('=> Back-end started!');
+});
+```
+
+---
+
+# Métodos HTTP
+
+## Get
+
+- buscar informações do back-end
+- rota usada para retornar alguma informação
+
+⇒ Nem toda rota retorna uma informação. Se o usuário for deletar alguma coisa do back-end, por exemplo, essa ação não retornará uma informação.
+
+## Post
+
+- criar uma informação no back-end
+
+## Put/Patch
+
+- alterar uma informação no back-end
+- ambos atualizam informações
+- put serve para atualizar um recurso por completo
+    - Ex: usuário altera todos os dados do seu perfil na aplicação de uma vez
+- patch serve para atualizar uma informação específica
+    - Ex: alterar a foto de avatar do usuário
+
+## Delete
+
+- deleta uma informação no back-end
+
+---
+
+# Utilizando o Insomnia
+
+- programa baixado em **[insomnia.rest](http://insomnia.rest)** automaticamente
+- instalado tema dracula automático também
+- criar uma pasta para requisições do mesmo recurso
+    - no caso criaremos uma folder chamada **Projects**
+- adicionamos novas **requests**
+    - damos um nome. Ex: **List**
+    - escolhemos o método. Ex: **Get**
+    - depois colocamos o caminho da rota
+    - clicar em **Send** para finalmente testar a rota
+
+⇒ Lembrando que para as rotas **put e delete**, deve-se colocar um **/id** depois do caminho
+
+## Adicionando um environment
+
+- serve para criar atalhos que são muito usados
+- Manage Environments
+- adicionar um novo sub environment
+- colocar um nome
+- adicionar uma cor
+- colocar um código padrão json, Ex:
+
+```jsx
+{
+  "base_url": "http://localhost:3333"
+}
+```
+
+- clicar em **Done**
+- selecionamos o **Environment** desejado
+- alteramos o caminho da rota e adicionamos o objeto criado com o código
+    - **Ctrl + Espaço**
+    - selecionar **base_url**
+- manter o caminho restante do recurso **/projects**
+
+⇒ Lembrando que para as rotas **put e delete**, deve-se colocar um **/id** depois do caminho
+
+---
+
+# Tipos de  Parâmetros
+
+***Parâmetros**: Formas do Front-end enviar algum tipo de informação
+
+## Query Params
+
+- usado principalmente para filtros e paginação
+- enviar parâmetros **Query:**
+    - adicionar um ponto de interrogação **?** após o recurso
+    - **nome_do_parâmetro**=**valor_do_parâmetro**
+    - para adicionar mais parâmetros, usar o 'E' comercial **&**
+    - Ex:
+
+    ```jsx
+    http://localhost:3333/projects?title=React&owner=Elton
+    ```
+
+- no **Insomnia** pode ser usado a aba **Query**
+- no código da aplicação adicionamos:
+
+```jsx
+const query = request.query;
+
+  console.log(query);
+```
+
+- que deverá retornar:
+
+```jsx
+{ title: 'React', owner: 'Elton' }
+```
+
+- desmembrando a variável **query**, podemos deixar da seguinte forma:
+
+```jsx
+const {title, owner} = request.query;
+
+  console.log(title);
+  console.log(owner);
+```
+
+- que deverá retornar:
+
+```jsx
+React
+Elton
+```
+
+## Route Params
+
+- identificar recursos na hora de **Atualizar/Deletar**
+- solicitamos com o identificador depois do caminho e identificamos no código conforme a seguir, respectivamente:
+
+```jsx
+http://localhost:3333/projects/1
+
+app.put('/projects/:id', (request, response) => {...
+```
+
+- para nosso back-end identificar o **id** adiconamos ao código:
+
+```jsx
+const params = request.params;
+
+  console.log(params);
+```
+
+- que deverá retornar:
+
+```jsx
+{ id: '1' }
+```
+
+- da mesma forma que na **Query**, podemos desestruturar conforme a seguir:
+
+```jsx
+const {id} = request.params;
+
+  console.log(id);
+```
+
+## Request Body
+
+- conteúdo na hora de criar ou editar um recurso
+- esse conteúdo, ou seja, essas informações, chegam para o front-end através de **JSON**
+- na requisição feita pelo **Insomnia**
+    - no campo **Body**, selecionar **JSON**
+    - criar um objeto com as informações desejadas. Ex:
+
+    ```jsx
+    {
+    	"title": "Aplicativo React Native",
+    	"owner": "Elton Possidonio"
+    }
+    ```
+
+- no código da aplicação:
+
+```jsx
+const body = request.body;
+
+  console.log(body);
+```
+
+- para o **Express** interpretar a requisição acima:
+
+```jsx
+app.use(express.json());
+```
+
+- retornando então:
+
+```jsx
+{ title: 'Aplicativo React Native', owner: 'Elton Possidonio' }
+```
+
+- desmembrando mais uma vez:
+
+```jsx
+const {title, owner} = request.body;
+
+  console.log(title);
+  console.log(owner);
+```
+
+- retornando:
+
+```jsx
+Aplicativo React Native
+Elton Possidonio
+```
+
+---
