@@ -577,7 +577,7 @@ if (projectIndex < 0) { // caso não encontre, retorna uma resposta -1
 
 - testando a rota PUT no **Insomnia**:
 
-![Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_18-49-35.png](Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_18-49-35.png)
+![](images/Captura_de_tela_de_2020-12-21_18-49-35.png)
 
 repare que retornou um status code de sucesso 200
 
