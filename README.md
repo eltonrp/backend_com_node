@@ -577,7 +577,7 @@ if (projectIndex < 0) { // caso não encontre, retorna uma resposta -1
 
 - testando a rota PUT no **Insomnia**:
 
-![](images/Captura_de_tela_de_2020-12-21_18-49-35.png)
+![](images/imagem3.png)
 
 repare que retornou um status code de sucesso 200
 
@@ -589,7 +589,7 @@ return response.status(400).json({ error: 'Project not found.' })
 
 - retornando a resposta:
 
-![Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_18-53-02.png](Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_18-53-02.png)
+![](images/imagem4.png)
 
 ### Atualizando o projeto
 
@@ -654,11 +654,11 @@ app.put('/projects/:id', (request, response) => {
 - copiamos o conteúdo da rota de criação em Post
 - colamos em Put, selecionamos o formato json, alteramos alguma coisa e damos um send
 
-![Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_19-40-12.png](Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_19-40-12.png)
+![](images/imagem5.png)
 
 - podemos encontrar o projeto na rota de List
 
-![Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_19-42-04.png](Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_19-42-04.png)
+![](images/imagem6.png)
 
 ## Rota de Delete
 
@@ -681,7 +681,7 @@ return response.status(204).send();
 
 - basta copiar o id, colocar na URL após projects e apertar send
 
-![Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_20-00-21.png](Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_20-00-21.png)
+![](images/imagem7.png)
 
 - voltado na listagem, não encontra-se mais o projeto
 
@@ -711,12 +711,12 @@ app.get('/projects', (request, response) => {
 
 - criando 2 projetos e desabilitando o filtro e buscando em List
 
-![Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_20-23-40.png](Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_20-23-40.png)
+![](images/imagem8.png)
 
 - habilitando o filtro em Query
 
-![Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_20-24-43.png](Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_20-24-43.png)
+![](images/imagem9.png)
 
 - resultado:
 
-![Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_20-25-43.png](Aplicac%CC%A7a%CC%83o%20Funcional%204e91aad2dc384e6abf53bfc76bf25ef3/Captura_de_tela_de_2020-12-21_20-25-43.png)
+![](images/imagem10.png)
