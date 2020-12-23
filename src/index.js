@@ -1,11 +1,36 @@
 const express = require('express'); // importa express para gerenciar rotas
-const { v4 } = require('uuid'); // importa universal unique id
+const { v4, validate } = require('uuid'); // importa universal unique id
 
 const app = express();
 
 app.use(express.json());
 
 const projects = [];
+
+function logRequests(request, response, next) {
+  const { method, url } = request
+
+  const logLabel = `[${method.toUpperCase()}] ${url}`;
+
+  console.time(logLabel);
+
+  next(); // Próximo middleware
+
+  console.timeEnd(logLabel)
+}
+
+function validateProjectId(request, response, next) {
+  const { id } = request.params;
+  
+  if (!validate(id)) {
+    return response.status(400).json({ error: 'Invalid project ID.' });
+  }
+
+  return next();
+}
+
+app.use(logRequests);
+app.use('/projects/:id', validateProjectId);
 
 app.get('/projects', (request, response) => {
   const { title } = request.query;

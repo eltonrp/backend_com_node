@@ -720,3 +720,143 @@ app.get('/projects', (request, response) => {
 - resultado:
 
 ![](images/imagem10.png)
+
+---
+
+# Middlewares
+
+- interceptador de requisições
+- interrompe totalmente a requisição
+- altera dados da requisição
+- formato do tipo **função nome (requisição. resposta)**
+- terceiro parâmetro **next**
+- pega como reuisição:
+    - querys
+    - bodys
+    - params
+
+## Utilização
+
+- quando queremos que algum trecho de código seja disparado de forma automática em uma ou mais rotas da aplicação
+- criaremos e chamaremos a função para sabermos qual rota está sendo chamada no Insominia
+
+```jsx
+function logRequests(request, response, next) {
+  const { method, url } = request
+
+  const logLabel = `[${method.toUpperCase()}] ${url}`;
+
+  console.log(logLabel);
+}
+
+app.use(logRequests);
+```
+
+- chamando a rota GET no Insomnia
+
+![](images/imagem11.png)
+
+- caso a função next não seja chamada no final do middleware, o próximo middleware, ou seja, a rota não será disparada
+- para o interceptador não interromper o restante do fluxo da aplicação é necessário chamar a função **next**
+
+```jsx
+function logRequests(request, response, next) {
+  const { method, url } = request
+
+  const logLabel = `[${method.toUpperCase()}] ${url}`;
+
+  console.log(logLabel);
+
+  return next(); // Próximo middleware
+}
+```
+
+- os middlewares também podem ser aplicados em uma rota específica
+- primeiro comentamos onde ela está sendo chamada
+
+```jsx
+// app.use(logRequests)
+```
+
+- inserimos a função dentro da rota desejada
+
+```jsx
+app.get('/projects', logRequests, (request, response) => {
+  const { title } = request.query;
+
+  const results = title
+    ? projects.filter(project => project.title.includes(title))
+    : projects;
+
+  return response.json(results);
+});
+```
+
+### Outro tipo de utilização dos middlewares
+
+- o express permite que depois do next() seja executado outro comando
+- nesse caso será executado o middleware, a rota e depois esse comando
+- para que o comando depois do next() seja acessível, é necessário tirar o **return**
+- com isso podemos, utilizando o comando console.time e console.timeEnd, saber o tempo da requisição
+
+```jsx
+function logRequests(request, response, next) {
+  const { method, url } = request
+
+  const logLabel = `[${method.toUpperCase()}] ${url}`;
+
+  console.time(logLabel);
+
+  next(); // Próximo middleware
+
+  console.timeEnd(logLabel)
+}
+```
+
+![](images/imagem12.png)
+
+### Criando um middleware de validação
+
+- os middlewares também podem ser usados para validação
+- verifica se o dado que o usuário está enviando está no formato correto
+- nessa função será verificado o id das rotas PUT e DELETE
+- primeiramente importamos uma função de verificação do módulo **uuid**, chamada **validate**
+
+```jsx
+const { v4, validate } = require('uuid'); // importa universal unique id
+```
+
+- criamos a função de validação
+
+```jsx
+function validateProjectId(request, response, next) {
+  const { id } = request.params;
+  
+  if (!validate(id)) {
+    return response.status(400).json({ error: 'Invalid project ID.' });
+  }
+
+  return next();
+}
+```
+
+- note que a requisição será interrompida, caso a requisição não seja validada
+- depois podemos inserir a função dentro da rota desejada
+
+```jsx
+app.put('/projects/:id', validateProjectId, (request, response) => ...
+```
+
+- fazendo uma requisição inválida pelo Insomnia
+
+![](images/imagem13.png)
+
+- pode-se também, utilizando a **app.use**(), chamar a função apenas para as rotas desejadas
+
+```jsx
+app.use('/projects/:id', validateProjectId);
+```
+
+- nesse caso, apenas as rotas PUT e GET, que trabalham com esse tipo de requisição que usa o id, serão validadas pela função
+
+---
