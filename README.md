@@ -353,7 +353,7 @@ http://localhost:3333/projects/1
 app.put('/projects/:id', (request, response) => {...
 ```
 
-- para nosso back-end identificar o **id** adiconamos ao código:
+- para nosso back-end identificar o **id** adicionamos ao código:
 
 ```jsx
 const params = request.params;
@@ -535,7 +535,7 @@ const project = { id: v4(), title, owner }; // usando a função na variável
 
 ![](images/imagem2.png)
 
-Repare no id único gerado. Caso aperte Send novamente, será criado um novo projeto, apenas com o id único diferente
+Repare no id único gerado. Caso aperte Send novamente, será criado um projeto, apenas com o id único diferente
 
 ## Rota de update PUT
 
@@ -649,7 +649,7 @@ app.put('/projects/:id', (request, response) => {
 
 ### Testando no **Insomnia**
 
-- em Post, criamos um novo projeto e copiamos seu id
+- em Post, criamos um projeto e copiamos o seu id
 - em Put, colocamos o id do projeto após projects
 - copiamos o conteúdo da rota de criação em Post
 - colamos em Put, selecionamos o formato json, alteramos alguma coisa e damos um send
@@ -683,7 +683,7 @@ return response.status(204).send();
 
 ![](images/imagem7.png)
 
-- voltado na listagem, não encontra-se mais o projeto
+- voltado na listagem, não se encontra mais o projeto
 
 ## Filtrando Rota List
 
@@ -730,7 +730,7 @@ app.get('/projects', (request, response) => {
 - altera dados da requisição
 - formato do tipo **função nome (requisição. resposta)**
 - terceiro parâmetro **next**
-- pega como reuisição:
+- pega como requisição:
     - querys
     - bodys
     - params
@@ -792,7 +792,7 @@ app.get('/projects', logRequests, (request, response) => {
 });
 ```
 
-### Outro tipo de utilização dos middlewares
+### Outra utilização dos middlewares
 
 - o express permite que depois do next() seja executado outro comando
 - nesse caso será executado o middleware, a rota e depois esse comando
@@ -857,6 +857,6 @@ app.put('/projects/:id', validateProjectId, (request, response) => ...
 app.use('/projects/:id', validateProjectId);
 ```
 
-- nesse caso, apenas as rotas PUT e GET, que trabalham com esse tipo de requisição que usa o id, serão validadas pela função
+- nesse caso, apenas as rotas PUT e GET, que trabalham com essa requisição que usa o id, serão validadas pela função
 
 ---
